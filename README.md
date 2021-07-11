@@ -7,6 +7,7 @@
 - Install `python3`
 - Install `node v12`
 - Install `yarn`
+- dependencies in `requirements.txt`
 
 ## Run Project
 
@@ -15,6 +16,11 @@
     - Admin portal will run on `http://127.0.0.1:8000/admin`
 - Run `yarn && yarn start` to start the frontend
     - Service will run on `http://127.0.0.1:8080`
+  
+## Deployment
+
+- The host is using heroku. Before deployment, you need to run
+  `heroku login`, commit your changes and then run `./deploy.sh`
 
 ## Commends for Admin management
 - `python manage.py runserver`
