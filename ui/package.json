@@ -8,6 +8,7 @@
   "scripts": {
     "start": "quasar dev",
     "build": "quasar build",
+    "postbuild": "rm -rf ../static/* && mv dist/spa/* ../static",
     "lint": "eslint --ext .js,.ts,.vue ./",
     "test": "echo \"No test specified\" && exit 0"
   },
