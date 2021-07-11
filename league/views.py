@@ -66,3 +66,13 @@ def league_create(request):
     if serializer.is_valid():
         serializer.save()
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+def league_update(request, pk):
+    league = League.objects.get(id=pk)
+    serializer = LeagueSerializer(instance=league, data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)

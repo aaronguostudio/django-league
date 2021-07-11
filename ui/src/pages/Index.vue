@@ -37,79 +37,102 @@
       </div>
       <q-separator />
       <div class="row q-col-gutter-md q-pa-md">
-        <div class="col-md col-sm-12">
-          <q-card class="no-shadow" bordered>
-            <q-card-section>
-              <div class="text-lg text-bold flex items-center justify-between">
-                <div>Teams</div>
-                <q-btn
-                  icon="add" color="primary" size="sm" :outline="!teamCreate" round unelevated
-                  @click="teamCreate = !teamCreate"
-                />
-              </div>
-              <q-form v-if="teamCreate" class="full-width cf-hover-container" @submit="handleTeamCreate">
-                <div class="q-gutter-y-sm">
-                  <q-input label="Name" v-model="teamNew.name" dense />
-                  <q-input label="Email" v-model="teamNew.email" dense />
-                  <div class="flex justify-end">
-                    <q-btn label="Submit" color="primary" size=".7rem" no-caps unelevated type="submit" />
-                  </div>
+        <div class="col-md-8 col-sm-12 q-gutter-y-md">
+          <div class="col-md col-sm-12" v-if="selectedLeague">
+            <q-card class="no-shadow" bordered>
+              <q-card-section>
+                <div class="text-lg text-bold flex items-center justify-between">
+                  <div>Update {{ selectedLeague.name }}</div>
                 </div>
-              </q-form>
-              <div class="q-mt-md">
-                <div class="q-gutter-md flex">
-                  <q-btn
-                    v-for="team in filteredTeams" :key="team.id" bordered
-                    :color="selectedTeam === team ? 'primary' : 'black'" :label="team.name" no-caps
-                    :outline="selectedTeam !== team" unelevated @click="handleTeamSelected(team)"
-                  />
-                </div>
-              </div>
-            </q-card-section>
-          </q-card>
-        </div>
-        <div class="col-md col-sm-12">
-          <q-card class="no-shadow" bordered>
-            <q-card-section>
-              <div class="text-lg text-bold flex items-center justify-between">
-                <div>Members</div>
-                <q-btn
-                  icon="add" color="primary" size="sm" :outline="!memberCreate" round unelevated
-                  @click="handleMemCreateEnable"
-                />
-              </div>
-              <q-form v-if="memberCreate" class="full-width cf-hover-container" @submit="handleMemberCreate">
-                <div class="q-gutter-y-sm">
-                    <q-input label="Name" v-model="memberNew.name" dense />
-                    <div class="row q-gutter-x-md">
-                      <q-input class="col" label="Email" v-model="memberNew.email" dense />
-                      <q-select
-                        class="col" label="Team" v-model="memberNew.team" map-options option-label="name"
-                        emit-value option-value="id" :options="filteredTeams" dense
-                      />
-                    </div>
+                <q-form class="full-width cf-hover-container" @submit="handleLeagueUpdate">
+                  <div class="q-gutter-y-sm">
+                    <q-input label="Name" v-model="leagueUpdate.name" dense />
+                    <q-select
+                      label="Teams" v-model="leagueUpdate.teams" map-options option-label="name"
+                      emit-value option-value="id" :options="teams" dense multiple
+                    />
                     <div class="flex justify-end">
                       <q-btn label="Submit" color="primary" size=".7rem" no-caps unelevated type="submit" />
                     </div>
+                  </div>
+                </q-form>
+              </q-card-section>
+            </q-card>
+          </div>
+          <div class="col-md col-sm-12">
+            <q-card class="no-shadow" bordered>
+              <q-card-section>
+                <div class="text-lg text-bold flex items-center justify-between">
+                  <div>Teams</div>
+                  <q-btn
+                    icon="add" color="primary" size="sm" :outline="!teamCreate" round unelevated
+                    @click="teamCreate = !teamCreate"
+                  />
                 </div>
-              </q-form>
-              <div class="q-mt-md">
-                <div class="q-gutter-md flex">
-                  <q-card class="no-shadow" v-for="member in filteredMembers" :key="member.id" bordered>
-                    <q-card-section class="q-gutter-y-sm">
-                      <div class="flex items-center q-gutter-x-sm">
-                        <q-avatar color="secondary text-white" size="md">{{ member.name.charAt(0) }}</q-avatar>
-                        <div class="text-bold">
-                          <div>{{ member.name }}</div>
-                          <div class="text-grey-8">{{ member.email }}</div>
-                        </div>
+                <q-form v-if="teamCreate" class="full-width cf-hover-container" @submit="handleTeamCreate">
+                  <div class="q-gutter-y-sm">
+                    <q-input label="Name" v-model="teamNew.name" dense />
+                    <q-input label="Email" v-model="teamNew.email" dense />
+                    <div class="flex justify-end">
+                      <q-btn label="Submit" color="primary" size=".7rem" no-caps unelevated type="submit" />
+                    </div>
+                  </div>
+                </q-form>
+                <div class="q-mt-md">
+                  <div class="q-gutter-md flex">
+                    <q-btn
+                      v-for="team in filteredTeams" :key="team.id" bordered
+                      :color="selectedTeam === team ? 'primary' : 'black'" :label="team.name" no-caps
+                      :outline="selectedTeam !== team" unelevated @click="handleTeamSelected(team)"
+                    />
+                  </div>
+                </div>
+              </q-card-section>
+            </q-card>
+          </div>
+          <div class="col-md col-sm-12">
+            <q-card class="no-shadow" bordered>
+              <q-card-section>
+                <div class="text-lg text-bold flex items-center justify-between">
+                  <div>Members</div>
+                  <q-btn
+                    icon="add" color="primary" size="sm" :outline="!memberCreate" round unelevated
+                    @click="handleMemCreateEnable"
+                  />
+                </div>
+                <q-form v-if="memberCreate" class="full-width cf-hover-container" @submit="handleMemberCreate">
+                  <div class="q-gutter-y-sm">
+                      <q-input label="Name" v-model="memberNew.name" dense />
+                      <div class="row q-gutter-x-md">
+                        <q-input class="col" label="Email" v-model="memberNew.email" dense />
+                        <q-select
+                          class="col" label="Team" v-model="memberNew.team" map-options option-label="name"
+                          emit-value option-value="id" :options="filteredTeams" dense
+                        />
                       </div>
-                    </q-card-section>
-                  </q-card>
+                      <div class="flex justify-end">
+                        <q-btn label="Submit" color="primary" size=".7rem" no-caps unelevated type="submit" />
+                      </div>
+                  </div>
+                </q-form>
+                <div class="q-mt-md">
+                  <div class="q-gutter-md flex">
+                    <q-card class="no-shadow" v-for="member in filteredMembers" :key="member.id" bordered>
+                      <q-card-section class="q-gutter-y-sm">
+                        <div class="flex items-center q-gutter-x-sm">
+                          <q-avatar color="secondary text-white" size="md">{{ member.name.charAt(0) }}</q-avatar>
+                          <div class="text-bold">
+                            <div>{{ member.name }}</div>
+                            <div class="text-grey-8">{{ member.email }}</div>
+                          </div>
+                        </div>
+                      </q-card-section>
+                    </q-card>
+                  </div>
                 </div>
-              </div>
-            </q-card-section>
-          </q-card>
+              </q-card-section>
+            </q-card>
+          </div>
         </div>
         <div class="col-md col-sm-12">
           <q-card class="no-shadow" bordered>
@@ -194,8 +217,9 @@
 
 <script lang="ts">
 import { defineComponent, computed, onMounted, ref } from 'vue'
+import cloneDeep from 'lodash.clonedeep'
 import { IMember, ITeam, ITeamMap, ILeague, ICompetition, memberTemplate, teamTemplate, competitionTemplate, leagueTemplate } from 'src/interface/common'
-import { getMembers, getTeams, getCompetitions, getLeagues, postMember, postTeam, postCompetition, postLeague } from 'src/service/services'
+import { getMembers, getTeams, getCompetitions, getLeagues, postMember, postTeam, postCompetition, postLeague, updateLeague } from 'src/service/services'
 import dayjs from 'dayjs'
 
 export default defineComponent({
@@ -211,15 +235,29 @@ export default defineComponent({
     const selectedTeam = ref<ITeam>()
     const memberCreate = ref(false)
     const leagueNew = ref<ILeague>({ ...leagueTemplate })
+    const leagueUpdate = ref<ILeague>({ ...leagueTemplate })
     const memberNew = ref<IMember>({ ...memberTemplate })
     const teamCreate = ref(false)
     const teamNew = ref<ITeam>({ ...teamTemplate })
     const competitionCreate = ref(false)
     const competitionNew = ref<ICompetition>({ ...competitionTemplate })
-    const filteredComps = computed<ICompetition[]>(() => competitions.value.filter(comp => comp.league === selectedLeague.value?.id))
-    const filteredTeams = computed<ITeam[]>(() => teams.value.filter(team => selectedLeague.value?.teams.includes(team.id as number)))
+    const filteredComps = computed<ICompetition[]>(() => {
+      if (selectedLeague.value)
+        return competitions.value.filter(comp => comp.league === selectedLeague.value?.id)
+      return competitions.value
+    })
+    const filteredTeams = computed<ITeam[]>(() => {
+      if (selectedLeague.value)
+        return teams.value.filter(team => selectedLeague.value?.teams.includes(team.id as number))
+      return teams.value
+    })
     const filteredMembers = computed<IMember[]>(() => {
-      const mems: IMember[] = members.value.filter(member => selectedLeague.value?.teams.includes(member.team as number))
+      let mems: IMember[] = []
+      if (selectedLeague.value)
+        mems = members.value.filter(member => selectedLeague.value?.teams.includes(member.team as number))
+      else
+        mems = members.value
+
       if (selectedTeam.value)
         return mems.filter(m => m.team === selectedTeam.value?.id)
       return mems
@@ -237,10 +275,10 @@ export default defineComponent({
         getLeagues(),
       ])
 
-      members.value = membersData.data as IMember[]
-      teams.value = teamsData.data as ITeam[]
-      leagues.value = leaguesData.data as ILeague[]
-      competitions.value = competitionsData.data as ICompetition[]
+      members.value = membersData.data
+      teams.value = teamsData.data
+      leagues.value = leaguesData.data
+      competitions.value = competitionsData.data
 
       if (teams.value) {
         teamsMap.value = teams.value.reduce((acc: ITeamMap, cur: ITeam) => {
@@ -249,16 +287,24 @@ export default defineComponent({
         }, {})
       }
 
-      if (leagues.value && leagues.value.length > 0)
-        selectedLeague.value = leagues.value[0]
+      if (selectedLeague.value)
+        selectedLeague.value = leagues.value.find(league => league.id === selectedLeague.value?.id)
+
+      if (selectedTeam.value)
+        selectedTeam.value = teams.value.find(team => team.id === selectedTeam.value?.id)
     }
 
     const handleSelectLeague = (league: ILeague) => {
-      competitionCreate.value = false
-      teamCreate.value = false
-      memberCreate.value = false
-      selectedLeague.value = league
-      selectedTeam.value = undefined
+      if (selectedLeague.value === league) {
+        selectedLeague.value = undefined
+      } else {
+        competitionCreate.value = false
+        teamCreate.value = false
+        memberCreate.value = false
+        selectedTeam.value = undefined
+        selectedLeague.value = league
+        leagueUpdate.value = cloneDeep(selectedLeague.value)
+      }
     }
 
     const handleTeamSelected = (team: ITeam) => {
@@ -276,8 +322,12 @@ export default defineComponent({
     }
 
     const handleTeamCreate = async () => {
-      await postTeam(teamNew.value)
+      const res = await postTeam(teamNew.value)
       teamNew.value = { ...teamTemplate }
+      if (selectedLeague.value && res.data && res.data.id) {
+        selectedLeague.value.teams.push(res.data.id)
+        await updateLeague(selectedLeague.value)
+      }
       await refreshData()
     }
 
@@ -290,6 +340,11 @@ export default defineComponent({
     const handleLeagueCreate = async () => {
       await postLeague(leagueNew.value)
       leagueNew.value = { ...leagueTemplate }
+      await refreshData()
+    }
+
+    const handleLeagueUpdate = async () => {
+      await updateLeague(leagueUpdate.value)
       await refreshData()
     }
 
@@ -325,6 +380,7 @@ export default defineComponent({
       competitionCreate,
       competitionNew,
       leagueNew,
+      leagueUpdate,
       filteredComps,
       filteredTeams,
       filteredMembers,
@@ -336,6 +392,7 @@ export default defineComponent({
       handleCompCreateEnable,
       handleMemCreateEnable,
       handleLeagueCreate,
+      handleLeagueUpdate,
     };
   }
 });

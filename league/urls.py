@@ -11,4 +11,5 @@ urlpatterns = [
     path('competitions-create', views.competition_create, name='competitions-create'),
     path('leagues', views.league_list, name='leagues'),
     path('leagues-create', views.league_create, name='leagues-create'),
+    path('leagues-update/<str:pk>', views.league_update, name='leagues-update'),
 ]
