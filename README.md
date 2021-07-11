@@ -2,6 +2,17 @@
 > This is a project for learning python development. It has a django backend
 > and VueJS frontend. django backend offers a set of restful APIs for the frontend.
 
+- ### Demo Link: https://league-aaron.herokuapp.com/
+- ### GitHub Repo: https://github.com/aaronguostudio/django-league
+
+## Features
+
+- `python django restful APIs`
+- `VueJS SPA with composition API`
+- `Responsive design`
+- `Sqlite`
+- `Heroku host`
+
 ## Environment Setup
 
 - Install `python3`
