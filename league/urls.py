@@ -10,4 +10,5 @@ urlpatterns = [
     path('competitions', views.competition_list, name='competitions'),
     path('competitions-create', views.competition_create, name='competitions-create'),
     path('leagues', views.league_list, name='leagues'),
+    path('leagues-create', views.league_create, name='leagues-create'),
 ]

@@ -57,3 +57,12 @@ def league_list(request):
     leagues = League.objects.all()
     serializer = LeagueSerializer(leagues, many=True)
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+def league_create(request):
+    serializer = LeagueSerializer(data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+    return Response(serializer.data)

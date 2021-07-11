@@ -12,6 +12,26 @@
                   :outline="selectedLeague !== league" unelevated @click="handleSelectLeague(league)"
                 />
               </div>
+              <div class="flex items-center">
+                <q-btn icon="add" size="sm" color="primary" round unelevated outline>
+                  <q-popup-proxy>
+                    <div class="q-pa-md league-create">
+                      <q-form class="full-width cf-hover-container" @submit="handleLeagueCreate">
+                        <div class="q-gutter-y-sm">
+                          <q-input label="Name" v-model="leagueNew.name" dense />
+                          <q-select
+                            label="Teams" v-model="leagueNew.teams" map-options option-label="name"
+                            emit-value option-value="id" :options="teams" dense multiple
+                          />
+                          <div class="flex justify-end">
+                            <q-btn label="Submit" color="primary" size=".7rem" no-caps unelevated type="submit" />
+                          </div>
+                        </div>
+                      </q-form>
+                    </div>
+                  </q-popup-proxy>
+                </q-btn>
+              </div>
             </div>
           </q-card-section>
         </q-card>
@@ -175,8 +195,8 @@
 
 <script lang="ts">
 import { defineComponent, computed, onMounted, ref } from 'vue'
-import { IMember, ITeam, ITeamMap, ILeague, ICompetition, memberTemplate, teamTemplate, competitionTemplate } from 'src/interface/common'
-import { getMembers, getTeams, getCompetitions, getLeagues, postMember, postTeam, postCompetition } from 'src/service/services'
+import { IMember, ITeam, ITeamMap, ILeague, ICompetition, memberTemplate, teamTemplate, competitionTemplate, leagueTemplate } from 'src/interface/common'
+import { getMembers, getTeams, getCompetitions, getLeagues, postMember, postTeam, postCompetition, postLeague } from 'src/service/services'
 import dayjs from 'dayjs'
 
 export default defineComponent({
@@ -191,6 +211,7 @@ export default defineComponent({
     const selectedLeague = ref<ILeague>()
     const selectedTeam = ref<ITeam>()
     const memberCreate = ref(false)
+    const leagueNew = ref<ILeague>({ ...leagueTemplate })
     const memberNew = ref<IMember>({ ...memberTemplate })
     const teamCreate = ref(false)
     const teamNew = ref<ITeam>({ ...teamTemplate })
@@ -238,6 +259,7 @@ export default defineComponent({
       teamCreate.value = false
       memberCreate.value = false
       selectedLeague.value = league
+      selectedTeam.value = undefined
     }
 
     const handleTeamSelected = (team: ITeam) => {
@@ -263,6 +285,12 @@ export default defineComponent({
     const handleCompetitionCreate = async () => {
       await postCompetition(competitionNew.value)
       competitionNew.value = { ...competitionTemplate }
+      await refreshData()
+    }
+
+    const handleLeagueCreate = async () => {
+      await postLeague(leagueNew.value)
+      leagueNew.value = { ...leagueTemplate }
       await refreshData()
     }
 
@@ -297,6 +325,7 @@ export default defineComponent({
       teamNew,
       competitionCreate,
       competitionNew,
+      leagueNew,
       filteredComps,
       filteredTeams,
       filteredMembers,
@@ -307,12 +336,14 @@ export default defineComponent({
       handleCompetitionCreate,
       handleCompCreateEnable,
       handleMemCreateEnable,
+      handleLeagueCreate,
     };
   }
 });
 </script>
 
 <style lang="sass" scoped>
-// .list
-//   width: 16rem
+.league-create
+  width: 20rem
+  max-width: 20rem
 </style>
