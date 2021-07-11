@@ -1,1 +1,1 @@
- yarn --cwd ./ui build && git push heroku main
+ git push heroku main

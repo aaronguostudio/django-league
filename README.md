@@ -20,7 +20,8 @@
 ## Deployment
 
 - The host is using heroku. Before deployment, you need to run
-  `heroku login`, commit your changes and then run `./deploy.sh`
+  `heroku login`, run `./build.sh` and then commit your changes
+- Run `./deploy.sh` to deploy the changes
 
 ## Commends for Admin management
 - `python manage.py runserver`
