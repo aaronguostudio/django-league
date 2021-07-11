@@ -3,9 +3,8 @@
     <div class="full-vh">
       <div class="col">
         <q-card class="no-shadow">
-          <q-card-section class="flex items-center">
-            <div class="text-lg text-bold">Leagues</div>
-            <div class="q-ml-sm flex q-gutter-x-md">
+          <q-card-section class="">
+            <div class="flex q-gutter-md">
               <div v-for="league in leagues" :key="league.id">
                 <q-btn
                   :color="selectedLeague === league ? 'primary' : 'black'" :label="league.name" no-caps
@@ -38,7 +37,7 @@
       </div>
       <q-separator />
       <div class="row q-col-gutter-md q-pa-md">
-        <div class="col">
+        <div class="col-md col-sm-12">
           <q-card class="no-shadow" bordered>
             <q-card-section>
               <div class="text-lg text-bold flex items-center justify-between">
@@ -69,7 +68,7 @@
             </q-card-section>
           </q-card>
         </div>
-        <div class="col">
+        <div class="col-md col-sm-12">
           <q-card class="no-shadow" bordered>
             <q-card-section>
               <div class="text-lg text-bold flex items-center justify-between">
@@ -112,7 +111,7 @@
             </q-card-section>
           </q-card>
         </div>
-        <div class="col">
+        <div class="col-md col-sm-12">
           <q-card class="no-shadow" bordered>
             <q-card-section>
               <div class="text-lg text-bold flex items-center justify-between">
