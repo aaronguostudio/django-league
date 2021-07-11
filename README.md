@@ -12,6 +12,7 @@
 
 - Run `python manage.py runserver` to start the backend
     - Service will run on `http://127.0.0.1:8000`
+    - Admin portal will run on `http://127.0.0.1:8000/admin`
 - Run `yarn && yarn start` to start the frontend
     - Service will run on `http://127.0.0.1:8080`
 
