@@ -3,8 +3,13 @@
     <q-header elevated>
       <q-toolbar>
         <q-toolbar-title>
-          League
+          <div>
+            Leagues
+          </div>
         </q-toolbar-title>
+        <div class="flex items-center">
+          <q-btn label="Go to GitHub" outline no-caps @click="handleLink" />
+        </div>
       </q-toolbar>
     </q-header>
 
@@ -25,8 +30,11 @@ export default defineComponent({
   },
 
   setup () {
+    const handleLink = () => {
+      window.open('https://github.com/aaronguostudio/django-league')
+    }
     return {
-      //
+      handleLink
     }
   }
 })
