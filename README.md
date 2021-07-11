@@ -45,8 +45,3 @@
 
 ## Materials
 - https://docs.djangoproject.com/en/3.2/topics/db/queries/
-
-## Temp
-```python
-from league.models import Team, TeamMember, League, Competition
-```
